@@ -27,6 +27,16 @@ Bulk delete, archive, or keep thousands of emails with one click. Customizable r
 
 ---
 
+## How it works
+
+<p align="center">
+  <img src="animation.svg" alt="Gmail Cleaner animation" width="800"/>
+</p>
+
+Three emails flow through the pipeline simultaneously: dark-blue on arrival, they change colour at the AI classifier (red = delete, amber = archive, green = keep), then route to the correct bin.
+
+---
+
 ## Setup (one time, ~3 minutes)
 
 ### Step 1 — Open Google Apps Script

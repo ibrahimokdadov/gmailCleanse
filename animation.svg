@@ -1,0 +1,315 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 370">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="800" y2="370" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="#060c16"/>
+    <stop offset="100%" stop-color="#0c1a2e"/>
+  </linearGradient>
+  <filter id="softglow">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="glow">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+
+<style>
+  /* ── 8-second pipeline loop, 3 emails staggered by 8/3 ≈ 2.67s ── */
+
+  /* Red → Delete */
+  @keyframes moveRed {
+    0%   { transform:translate(132px,177px); opacity:0; }
+    8%   { transform:translate(132px,177px); animation-timing-function:ease-in-out; opacity:1; }
+    42%  { transform:translate(362px,177px); animation-timing-function:linear; }
+    57%  { transform:translate(362px,177px); animation-timing-function:ease-in-out; }
+    84%  { transform:translate(664px, 97px); opacity:1; }
+    94%  { opacity:0; }
+    100% { transform:translate(132px,177px); opacity:0; }
+  }
+  @keyframes fillRed {
+    0%,42% { fill:#112240; }
+    57%    { fill:#ef4444; }
+    100%   { fill:#ef4444; }
+  }
+  @keyframes strokeRed {
+    0%,42% { stroke:#1e3a6a; }
+    57%    { stroke:#fca5a5; }
+    100%   { stroke:#fca5a5; }
+  }
+  .er  { animation: moveRed    8s  0s    infinite; }
+  .err { animation: fillRed    8s  0s    infinite; }
+  .erl { animation: strokeRed  8s  0s    infinite; }
+
+  /* Yellow → Archive */
+  @keyframes moveYellow {
+    0%   { transform:translate(132px,177px); opacity:0; }
+    8%   { transform:translate(132px,177px); animation-timing-function:ease-in-out; opacity:1; }
+    42%  { transform:translate(362px,177px); animation-timing-function:linear; }
+    57%  { transform:translate(362px,177px); animation-timing-function:ease-in-out; }
+    84%  { transform:translate(664px,177px); opacity:1; }
+    94%  { opacity:0; }
+    100% { transform:translate(132px,177px); opacity:0; }
+  }
+  @keyframes fillYellow {
+    0%,42% { fill:#112240; }
+    57%    { fill:#f59e0b; }
+    100%   { fill:#f59e0b; }
+  }
+  @keyframes strokeYellow {
+    0%,42% { stroke:#1e3a6a; }
+    57%    { stroke:#fde68a; }
+    100%   { stroke:#fde68a; }
+  }
+  .ey  { animation: moveYellow   8s -2.67s infinite; }
+  .eyy { animation: fillYellow   8s -2.67s infinite; }
+  .eyl { animation: strokeYellow 8s -2.67s infinite; }
+
+  /* Green → Keep */
+  @keyframes moveGreen {
+    0%   { transform:translate(132px,177px); opacity:0; }
+    8%   { transform:translate(132px,177px); animation-timing-function:ease-in-out; opacity:1; }
+    42%  { transform:translate(362px,177px); animation-timing-function:linear; }
+    57%  { transform:translate(362px,177px); animation-timing-function:ease-in-out; }
+    84%  { transform:translate(664px,257px); opacity:1; }
+    94%  { opacity:0; }
+    100% { transform:translate(132px,177px); opacity:0; }
+  }
+  @keyframes fillGreen {
+    0%,42% { fill:#112240; }
+    57%    { fill:#22c55e; }
+    100%   { fill:#22c55e; }
+  }
+  @keyframes strokeGreen {
+    0%,42% { stroke:#1e3a6a; }
+    57%    { stroke:#86efac; }
+    100%   { stroke:#86efac; }
+  }
+  .eg  { animation: moveGreen   8s -5.33s infinite; }
+  .egg { animation: fillGreen   8s -5.33s infinite; }
+  .egl { animation: strokeGreen 8s -5.33s infinite; }
+
+  /* Classifier ring pulses (one per email, different colours) */
+  @keyframes pulseR {
+    0%,40%  { r:5;  opacity:0; stroke:#ef4444; }
+    42%     { r:5;  opacity:0.9; }
+    58%     { r:64; opacity:0; }
+    100%    { opacity:0; }
+  }
+  @keyframes pulseY {
+    0%,40%  { r:5;  opacity:0; stroke:#f59e0b; }
+    42%     { r:5;  opacity:0.9; }
+    58%     { r:64; opacity:0; }
+    100%    { opacity:0; }
+  }
+  @keyframes pulseG {
+    0%,40%  { r:5;  opacity:0; stroke:#22c55e; }
+    42%     { r:5;  opacity:0.9; }
+    58%     { r:64; opacity:0; }
+    100%    { opacity:0; }
+  }
+  .p1 { animation: pulseR 8s  0s    infinite; }
+  .p2 { animation: pulseY 8s -2.67s infinite; }
+  .p3 { animation: pulseG 8s -5.33s infinite; }
+
+  /* Bin arrival flash */
+  @keyframes binFlash {
+    0%,82%  { opacity:0; }
+    84%     { opacity:0.35; }
+    91%     { opacity:0; }
+    100%    { opacity:0; }
+  }
+  .bd { animation: binFlash 8s  0s    infinite; }
+  .ba { animation: binFlash 8s -2.67s infinite; }
+  .bk { animation: binFlash 8s -5.33s infinite; }
+
+  /* Inbox "receiving" blink */
+  @keyframes inboxBlink {
+    0%,90%  { opacity:1; }
+    92%     { opacity:0.5; }
+    96%     { opacity:1; }
+    100%    { opacity:1; }
+  }
+  .inbox-badge { animation: inboxBlink 3s infinite; }
+</style>
+
+<!-- ── Background ── -->
+<rect width="800" height="370" fill="url(#bg)" rx="10"/>
+<ellipse cx="400" cy="205" rx="260" ry="110" fill="#1a4fa8" opacity="0.055"/>
+
+<!-- ── Title ── -->
+<text x="400" y="36" text-anchor="middle"
+  font-family="system-ui,-apple-system,Arial,sans-serif"
+  font-size="19" fill="#f1f5f9" font-weight="700">How Gmail Cleaner Works</text>
+<text x="400" y="57" text-anchor="middle"
+  font-family="system-ui,-apple-system,Arial,sans-serif"
+  font-size="12" fill="#475569">
+  Three emails flow through the pipeline simultaneously — always sorting, always cleaning
+</text>
+
+<!-- ══════════════════════════════════════
+     STEP LABELS
+══════════════════════════════════════ -->
+<text x="95"  y="82" text-anchor="middle" font-family="monospace" font-size="9" fill="#334155" letter-spacing="1.5">① INBOX</text>
+<text x="400" y="82" text-anchor="middle" font-family="monospace" font-size="9" fill="#334155" letter-spacing="1.5">② AI CLASSIFIER</text>
+<text x="702" y="82" text-anchor="middle" font-family="monospace" font-size="9" fill="#334155" letter-spacing="1.5">③ SORTED</text>
+
+<!-- ══════════════════════════════════════
+     INBOX BOX
+══════════════════════════════════════ -->
+<rect x="30" y="120" width="130" height="160" rx="6"
+  fill="#0a1828" stroke="#1e3a5f" stroke-width="1.5"/>
+
+<!-- Mini backlog emails (static) -->
+<g opacity="0.45">
+  <g transform="translate(40,136) rotate(-7)">
+    <rect width="56" height="34" rx="2" fill="#112240" stroke="#1a3360" stroke-width="1"/>
+    <polyline points="0,0 28,20 56,0" fill="none" stroke="#1a3360" stroke-width="1"/>
+  </g>
+  <g transform="translate(45,148) rotate(4)">
+    <rect width="56" height="34" rx="2" fill="#0e1d38" stroke="#172d52" stroke-width="1"/>
+    <polyline points="0,0 28,20 56,0" fill="none" stroke="#172d52" stroke-width="1"/>
+  </g>
+  <g transform="translate(50,162) rotate(-2)">
+    <rect width="56" height="34" rx="2" fill="#0c1a34" stroke="#142848" stroke-width="1"/>
+    <polyline points="0,0 28,20 56,0" fill="none" stroke="#142848" stroke-width="1"/>
+  </g>
+  <g transform="translate(44,196) rotate(3)">
+    <rect width="56" height="34" rx="2" fill="#0d1b35" stroke="#152948" stroke-width="1"/>
+    <polyline points="0,0 28,20 56,0" fill="none" stroke="#152948" stroke-width="1"/>
+  </g>
+</g>
+
+<!-- Unread count badge -->
+<circle class="inbox-badge" cx="155" cy="124" r="16" fill="#ef4444" filter="url(#softglow)"/>
+<text class="inbox-badge" x="155" y="129"
+  text-anchor="middle" font-family="Arial" font-size="9" fill="white" font-weight="bold">847</text>
+
+<!-- ══════════════════════════════════════
+     DOTTED ROUTE PATHS
+══════════════════════════════════════ -->
+
+<!-- Inbox → Classifier -->
+<line x1="162" y1="202" x2="336" y2="202"
+  stroke="#1a2f4a" stroke-width="1.5" stroke-dasharray="5,4"/>
+<polygon points="334,197 344,202 334,207" fill="#1a2f4a"/>
+
+<!-- Classifier → Delete (up-right) -->
+<path d="M 458 192 C 530 158 590 130 628 120"
+  stroke="#3a1010" stroke-width="1.2" stroke-dasharray="4,4" fill="none"/>
+<polygon points="624,116 634,120 625,126" fill="#3a1010"/>
+
+<!-- Classifier → Archive (straight) -->
+<line x1="462" y1="202" x2="628" y2="202"
+  stroke="#3a2800" stroke-width="1.2" stroke-dasharray="4,4"/>
+<polygon points="625,197 635,202 625,207" fill="#3a2800"/>
+
+<!-- Classifier → Keep (down-right) -->
+<path d="M 458 212 C 530 246 590 268 628 280"
+  stroke="#0a2e14" stroke-width="1.2" stroke-dasharray="4,4" fill="none"/>
+<polygon points="625,276 635,280 626,286" fill="#0a2e14"/>
+
+<!-- ══════════════════════════════════════
+     CLASSIFIER CIRCLE
+══════════════════════════════════════ -->
+<circle cx="400" cy="202" r="64" fill="#070f1c" stroke="#1e3a5f" stroke-width="1.5"/>
+<circle cx="400" cy="202" r="52" fill="none" stroke="#142034" stroke-width="1" stroke-dasharray="3,3"/>
+
+<!-- Spinning orbit dots (SMIL rotation) -->
+<g>
+  <circle cx="444" cy="202" r="5"   fill="#3b82f6" opacity="0.88"/>
+  <circle cx="431" cy="231" r="4"   fill="#3b82f6" opacity="0.72"/>
+  <circle cx="400" cy="244" r="3.5" fill="#3b82f6" opacity="0.58"/>
+  <circle cx="369" cy="231" r="3.5" fill="#3b82f6" opacity="0.48"/>
+  <circle cx="356" cy="202" r="3"   fill="#3b82f6" opacity="0.38"/>
+  <circle cx="369" cy="173" r="3"   fill="#3b82f6" opacity="0.44"/>
+  <circle cx="400" cy="160" r="3.5" fill="#3b82f6" opacity="0.58"/>
+  <circle cx="431" cy="173" r="4.5" fill="#3b82f6" opacity="0.74"/>
+  <animateTransform attributeName="transform" type="rotate"
+    from="0 400 202" to="360 400 202" dur="5s" repeatCount="indefinite"/>
+</g>
+
+<!-- Center AI label -->
+<text x="400" y="198" text-anchor="middle"
+  font-family="system-ui,-apple-system,Arial,sans-serif"
+  font-size="13" fill="#60a5fa" font-weight="700" letter-spacing="1">AI</text>
+<text x="400" y="214" text-anchor="middle"
+  font-family="monospace" font-size="8" fill="#2d5a9a" letter-spacing="1.5">CLASSIFY</text>
+
+<!-- Pulse rings (one per email, colour-coded) -->
+<circle class="p1" cx="400" cy="202" fill="none" stroke-width="2.5" r="5"/>
+<circle class="p2" cx="400" cy="202" fill="none" stroke-width="2.5" r="5"/>
+<circle class="p3" cx="400" cy="202" fill="none" stroke-width="2.5" r="5"/>
+
+<!-- ══════════════════════════════════════
+     OUTPUT BINS
+══════════════════════════════════════ -->
+
+<!-- Bin arrival flashes -->
+<rect class="bd" x="628" y="92"  width="148" height="62" rx="6" fill="#ef4444" opacity="0"/>
+<rect class="ba" x="628" y="172" width="148" height="62" rx="6" fill="#f59e0b" opacity="0"/>
+<rect class="bk" x="628" y="252" width="148" height="62" rx="6" fill="#22c55e" opacity="0"/>
+
+<!-- DELETE bin -->
+<rect x="629" y="93"  width="146" height="60" rx="6" fill="#120808" stroke="#7f1d1d" stroke-width="1.5"/>
+<text x="648" y="120" font-family="Arial" font-size="17">🗑️</text>
+<text x="671" y="116" font-family="system-ui,-apple-system,Arial,sans-serif"
+  font-size="11" fill="#fca5a5" font-weight="700">DELETE</text>
+<text x="671" y="131" font-family="system-ui,-apple-system,Arial,sans-serif"
+  font-size="9" fill="#7f1d1d">Promo · Ads · Social</text>
+
+<!-- ARCHIVE bin -->
+<rect x="629" y="173" width="146" height="60" rx="6" fill="#120d04" stroke="#78350f" stroke-width="1.5"/>
+<text x="648" y="200" font-family="Arial" font-size="17">📦</text>
+<text x="671" y="196" font-family="system-ui,-apple-system,Arial,sans-serif"
+  font-size="11" fill="#fde68a" font-weight="700">ARCHIVE</text>
+<text x="671" y="211" font-family="system-ui,-apple-system,Arial,sans-serif"
+  font-size="9" fill="#78350f">Newsletters · Alerts</text>
+
+<!-- KEEP bin -->
+<rect x="629" y="253" width="146" height="60" rx="6" fill="#060f08" stroke="#14532d" stroke-width="1.5"/>
+<text x="648" y="280" font-family="Arial" font-size="17">✅</text>
+<text x="671" y="276" font-family="system-ui,-apple-system,Arial,sans-serif"
+  font-size="11" fill="#86efac" font-weight="700">KEEP</text>
+<text x="671" y="291" font-family="system-ui,-apple-system,Arial,sans-serif"
+  font-size="9" fill="#14532d">Personal · Finance · Security</text>
+
+<!-- ══════════════════════════════════════
+     ANIMATED EMAIL CARDS
+     Each card: 82×50 rect + V-fold polyline
+     Defined at (0,0); CSS transform moves them
+══════════════════════════════════════ -->
+
+<!-- Red card → Delete -->
+<g class="er" filter="url(#softglow)">
+  <rect width="82" height="50" rx="3" class="err"/>
+  <polyline points="0,0 41,30 82,0" fill="none" class="erl" stroke-width="1.5"/>
+  <!-- Subtle "lines" suggesting email content -->
+  <line x1="10" y1="36" x2="45" y2="36" class="erl" stroke-width="0.8" opacity="0.4"/>
+  <line x1="10" y1="43" x2="35" y2="43" class="erl" stroke-width="0.8" opacity="0.3"/>
+</g>
+
+<!-- Yellow card → Archive -->
+<g class="ey" filter="url(#softglow)">
+  <rect width="82" height="50" rx="3" class="eyy"/>
+  <polyline points="0,0 41,30 82,0" fill="none" class="eyl" stroke-width="1.5"/>
+  <line x1="10" y1="36" x2="45" y2="36" class="eyl" stroke-width="0.8" opacity="0.4"/>
+  <line x1="10" y1="43" x2="35" y2="43" class="eyl" stroke-width="0.8" opacity="0.3"/>
+</g>
+
+<!-- Green card → Keep -->
+<g class="eg" filter="url(#softglow)">
+  <rect width="82" height="50" rx="3" class="egg"/>
+  <polyline points="0,0 41,30 82,0" fill="none" class="egl" stroke-width="1.5"/>
+  <line x1="10" y1="36" x2="45" y2="36" class="egl" stroke-width="0.8" opacity="0.4"/>
+  <line x1="10" y1="43" x2="35" y2="43" class="egl" stroke-width="0.8" opacity="0.3"/>
+</g>
+
+<!-- ── Legend ── -->
+<line x1="200" y1="348" x2="600" y2="348" stroke="#0f1e30" stroke-width="1"/>
+<text x="400" y="362" text-anchor="middle"
+  font-family="system-ui,-apple-system,Arial,sans-serif"
+  font-size="10" fill="#334155" letter-spacing="0.3">
+  Emails change colour as they are classified — dark blue → red / amber / green
+</text>
+</svg>
