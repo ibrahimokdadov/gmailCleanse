@@ -1,0 +1,188 @@
+GMAIL CLEANER v2 — SETUP GUIDE
+==============================
+
+WHAT THIS DOES
+--------------
+Gmail Cleaner scans your inbox, automatically categorizes every email
+(promotional, newsletter, social, personal, financial, etc.), and lets
+you bulk delete/archive/keep them with one click.
+
+Optional: add an OpenAI API key to enable smarter categorization and
+AI-drafted replies for personal and work emails you may have missed.
+
+
+ONE-TIME SETUP (takes ~3 minutes)
+-----------------------------------
+
+STEP 1: Open Google Apps Script
+  → Go to: https://script.google.com
+  → Click "New Project"
+  → Name it "Gmail Cleaner"
+
+STEP 2: Upload the script files
+  → Delete everything in the default Code.gs tab
+  → For each .gs file in this folder, create a new script file:
+      Click the "+" next to "Files" → choose "Script"
+      Name it exactly (e.g. "Constants"), paste the contents
+  → Files to add (in order):
+      Constants.gs
+      Setup.gs
+      Menu.gs
+      Rules.gs
+      Analyzer.gs
+      Cleanup.gs
+      AI.gs
+      Scheduler.gs
+      Progress.gs
+      Tests.gs
+  → Click Save (Ctrl+S / Cmd+S)
+
+STEP 3: Run the setup wizard
+  → In the function dropdown at the top, select "setupGmailCleaner"
+  → Click the Run button (▶)
+  → First time: Google will ask for permission
+      Click "Review permissions" → select your Google account
+      Click "Advanced" → "Go to Gmail Cleaner (unsafe)" → "Allow"
+  → A Google Sheet will open automatically — bookmark it!
+
+STEP 4: You're done!
+  → Close the script editor
+  → Everything from now on happens inside the Google Sheet
+  → Use the "Gmail Cleaner" menu at the top of the sheet
+
+
+DAILY USE
+----------
+
+1. Open your Gmail Cleaner Google Sheet
+2. Click  Gmail Cleaner → 🔍 Analyze Inbox
+   → Scans your inbox and categorizes all emails
+   → Results appear in the "Results" tab
+3. (Optional) Review the Results tab
+   → Change any "Action" cell if you disagree with the suggestion
+   → Actions: delete / archive / keep / review
+4. Click  Gmail Cleaner → ✨ Clean Now
+   → Confirm the summary dialog
+   → Your inbox gets cleaned!
+
+
+CUSTOMIZING RULES
+-----------------
+
+Open the "Rules" tab in the sheet:
+
+  Custom Delete Senders (Column A):
+    Add any sender domain or email address to always delete.
+    Examples:
+      @newsletters.example.com
+      spam@company.com
+
+  Whitelist — Always Keep (Column C):
+    Add senders to always protect, no matter what.
+    Examples:
+      @mybank.com
+      myboss@company.com
+
+No code required — just type in the cells and your rules take effect
+on the next Analyze run.
+
+
+SETTINGS
+---------
+
+Open the "Settings" tab:
+
+  Max Emails Per Run    How many emails to analyze at once (default: 500)
+                        Increase up to ~1500 after testing. Large numbers
+                        may hit Apps Script's 6-minute time limit.
+
+  Auto-Delete Age       Only delete emails older than this many days (default: 30)
+  (days)                Newer emails matching "delete" categories get archived instead.
+
+  OpenAI API Key        Optional. Enables AI-powered categorization and reply drafting.
+                        Get a key at: https://platform.openai.com/api-keys
+                        The key is saved securely and removed from the cell.
+
+  OpenAI Model          Model to use for AI features (default: gpt-4o-mini)
+                        gpt-4o-mini is fast and cheap. Use gpt-4o for higher quality.
+
+  Auto-Schedule         Set to ON to run a full cleanup automatically each week.
+  Schedule Day          Day of the week for auto-cleanup. You'll get an email summary.
+
+
+AI FEATURES (optional)
+-----------------------
+
+After saving an OpenAI API key in Settings:
+
+  Draft AI Replies:
+    → Scans your personal and work emails for messages you haven't replied to
+    → Generates suggested replies and adds them to the "AI Drafts" tab
+    → Review and edit the replies, mark them "Approve", then run:
+    → "Send Approved Drafts" — creates Gmail drafts (nothing is auto-sent)
+    → Review the drafts in Gmail → Drafts before sending
+
+  Smarter Categorization:
+    → Emails that can't be categorized by rules alone are sent to OpenAI
+    → Only the sender address, subject line, and a short snippet are sent
+    → The full email body is never transmitted
+
+
+WHAT GETS DELETED BY DEFAULT
+------------------------------
+  - Calendar notifications
+  - Google Ads emails
+  - Promotional emails (marketing@, deals@, promo@, etc.)
+  - Social notifications (Facebook, Twitter/X, LinkedIn, Reddit, etc.)
+  - Any senders you add to the "Custom Delete" column in the Rules tab
+
+WHAT GETS ARCHIVED BY DEFAULT
+-------------------------------
+  - Newsletters (emails with unsubscribe links)
+  - Automated notifications (noreply@, notification@, etc.)
+  - Shipping and order tracking emails
+
+WHAT GETS KEPT BY DEFAULT
+--------------------------
+  - Security alerts (password resets, login alerts, 2FA)
+  - Financial emails (banks, brokers, PayPal, etc.)
+  - Personal emails (from real people)
+  - Any senders you add to the "Whitelist" column in the Rules tab
+
+WHAT NEEDS REVIEW
+-----------------
+  - Work-related emails
+  - Emails that couldn't be confidently categorized
+
+
+SAFETY NOTES
+-------------
+  - Deleted emails go to TRASH (recoverable for 30 days in Gmail)
+  - Archived emails are NOT deleted — just moved out of inbox
+  - A label called "_CleanerProcessed" will appear in Gmail — this is normal
+    It tracks which emails have been processed to avoid re-processing them
+  - Run "Reset Processed Emails" from the menu to start completely fresh
+  - Large cleanups run in batches — if it stops early, just run "Clean Now" again
+
+
+TROUBLESHOOTING
+---------------
+
+"Sheet not found" error:
+  → Re-run setupGmailCleaner() from the script editor
+
+"No new emails to analyze":
+  → All inbox emails are already marked as processed
+  → Run  Gmail Cleaner → Reset Processed Emails  to start fresh
+
+AI features not working:
+  → Open Settings tab, enter your OpenAI key, run Save Settings
+  → Make sure the key is valid at: https://platform.openai.com
+
+Cleanup stops before finishing:
+  → Apps Script has a 6-minute time limit
+  → Just run  Clean Now  again to continue where it left off
+
+Authorization error:
+  → You may need to re-authorize after adding new script files
+  → Run any menu function and follow the authorization prompts
