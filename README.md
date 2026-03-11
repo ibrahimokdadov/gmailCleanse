@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="banner.svg" alt="Gmail Cleaner" width="800"/>
+</p>
+
 # Gmail Cleaner
 
 A free, open-source Gmail cleanup tool that runs entirely inside Google Sheets — no app to install, no data sent to any server (except OpenAI if you choose to use it).

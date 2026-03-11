@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 180">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="800" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#060c16"/>
+      <stop offset="100%" stop-color="#0c1a2e"/>
+    </linearGradient>
+    <linearGradient id="envDirty" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#112240"/>
+      <stop offset="100%" stop-color="#0d1b30"/>
+    </linearGradient>
+    <linearGradient id="envClean" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#052e16"/>
+      <stop offset="100%" stop-color="#071e0f"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="180" fill="url(#bg)" rx="10"/>
+
+  <!-- Ambient center glow -->
+  <ellipse cx="400" cy="90" rx="260" ry="65" fill="#1a4fa8" opacity="0.08"/>
+
+  <!-- Subtle panel dividers -->
+  <line x1="210" y1="20" x2="210" y2="160" stroke="#1e2d42" stroke-width="1"/>
+  <line x1="440" y1="20" x2="440" y2="160" stroke="#1e2d42" stroke-width="1"/>
+
+  <!-- ─────────────── LEFT PANEL: messy inbox ─────────────── -->
+
+  <text x="105" y="22" font-family="monospace" font-size="9" fill="#334155"
+    text-anchor="middle" letter-spacing="3">B E F O R E</text>
+
+  <!-- Envelope 1: back, rotated left -->
+  <g transform="translate(28,52) rotate(-13)">
+    <rect width="110" height="72" rx="4" fill="#0d1e35" stroke="#1e3554" stroke-width="1.5"/>
+    <polyline points="0,0 55,40 110,0" fill="none" stroke="#1e3554" stroke-width="1.5"/>
+  </g>
+
+  <!-- Envelope 2: middle, slight right tilt -->
+  <g transform="translate(22,38) rotate(7)">
+    <rect width="110" height="72" rx="4" fill="#0f2340" stroke="#253f64" stroke-width="1.5"/>
+    <polyline points="0,0 55,40 110,0" fill="none" stroke="#253f64" stroke-width="1.5"/>
+    <circle cx="98" cy="11" r="9" fill="#ef4444"/>
+    <text x="98" y="15" font-family="Arial" font-size="9" fill="white"
+      text-anchor="middle" font-weight="bold">!</text>
+  </g>
+
+  <!-- Envelope 3: front, slight left tilt -->
+  <g transform="translate(18,24) rotate(-5)">
+    <rect width="110" height="72" rx="4" fill="#122b4d" stroke="#2e5fa3" stroke-width="2"/>
+    <polyline points="0,0 55,40 110,0" fill="none" stroke="#2e5fa3" stroke-width="2"/>
+    <circle cx="98" cy="11" r="9" fill="#ef4444"/>
+    <text x="98" y="15" font-family="Arial" font-size="9" fill="white"
+      text-anchor="middle" font-weight="bold">5</text>
+  </g>
+
+  <!-- 847 unread badge -->
+  <rect x="38" y="112" width="92" height="22" rx="11" fill="#7f1d1d" stroke="#ef4444" stroke-width="1"/>
+  <text x="84" y="127" font-family="Arial" font-size="10" fill="#fca5a5"
+    text-anchor="middle" font-weight="bold">847 unread</text>
+
+  <!-- Tiny floating dots suggesting clutter -->
+  <circle cx="155" cy="50" r="3" fill="#1e3554" stroke="#2e5fa3" stroke-width="1" opacity="0.6"/>
+  <circle cx="165" cy="80" r="2" fill="#1e3554" stroke="#1e4a8a" stroke-width="1" opacity="0.4"/>
+  <circle cx="170" cy="110" r="2.5" fill="#1e3554" stroke="#ef4444" stroke-width="1" opacity="0.5"/>
+
+  <!-- ─────────────── CENTER PANEL: wand + sparkles ─────────────── -->
+
+  <!-- Dashed sweep arrow -->
+  <path d="M 226 95 Q 322 52 416 95" fill="none" stroke="#1e2d42"
+    stroke-width="1.5" stroke-dasharray="5,4"/>
+  <polygon points="413,87 423,95 413,103" fill="#1e2d42"/>
+
+  <!-- Magic wand stick -->
+  <line x1="248" y1="155" x2="330" y2="58" stroke="#f59e0b"
+    stroke-width="2.5" stroke-linecap="round" filter="url(#softglow)"/>
+
+  <!-- Wand tip — 8-pointed star -->
+  <g transform="translate(333,54)" filter="url(#glow)">
+    <polygon points="0,-14 3.8,-3.8 14,-3.8 6.5,2 9.5,13 0,6.5 -9.5,13 -6.5,2 -14,-3.8 -3.8,-3.8"
+      fill="#fbbf24"/>
+    <polygon points="0,-8 2,-2 8,-2 3.5,1.2 5.5,7.5 0,3.8 -5.5,7.5 -3.5,1.2 -8,-2 -2,-2"
+      fill="#fef3c7"/>
+  </g>
+
+  <!-- Sparkle A: gold, medium -->
+  <g transform="translate(374,38)" filter="url(#softglow)">
+    <polygon points="0,-10 2.8,-2.8 10,-2.8 4.5,1.5 7,9.5 0,5 -7,9.5 -4.5,1.5 -10,-2.8 -2.8,-2.8"
+      fill="#fbbf24" opacity="0.92"/>
+  </g>
+
+  <!-- Sparkle B: cyan, small -->
+  <g transform="translate(278,62)" filter="url(#softglow)">
+    <polygon points="0,-7 2,-2 7,-2 3,1 4.5,6.5 0,3.5 -4.5,6.5 -3,1 -7,-2 -2,-2"
+      fill="#38bdf8" opacity="0.85"/>
+  </g>
+
+  <!-- Sparkle C: gold, medium-small -->
+  <g transform="translate(356,136)" filter="url(#softglow)">
+    <polygon points="0,-8 2.2,-2.2 8,-2.2 3.5,1.2 5.5,7.5 0,3.8 -5.5,7.5 -3.5,1.2 -8,-2.2 -2.2,-2.2"
+      fill="#fbbf24" opacity="0.75"/>
+  </g>
+
+  <!-- Sparkle D: emerald, small -->
+  <g transform="translate(403,70)" filter="url(#softglow)">
+    <polygon points="0,-6 1.6,-1.6 6,-1.6 2.5,1 4,6 0,3 -4,6 -2.5,1 -6,-1.6 -1.6,-1.6"
+      fill="#34d399" opacity="0.8"/>
+  </g>
+
+  <!-- Sparkle E: lavender, tiny -->
+  <g transform="translate(310,38)">
+    <polygon points="0,-5 1.4,-1.4 5,-1.4 2,0.8 3.2,4.8 0,2.5 -3.2,4.8 -2,0.8 -5,-1.4 -1.4,-1.4"
+      fill="#c084fc" opacity="0.7"/>
+  </g>
+
+  <!-- Dot sparkles -->
+  <circle cx="258" cy="108" r="2.5" fill="#fbbf24" opacity="0.65" filter="url(#softglow)"/>
+  <circle cx="392" cy="118" r="2"   fill="#38bdf8" opacity="0.55"/>
+  <circle cx="340" cy="36"  r="1.8" fill="#fef3c7" opacity="0.7"/>
+  <circle cx="412" cy="48"  r="1.5" fill="#fbbf24" opacity="0.5"/>
+  <circle cx="272" cy="136" r="1.8" fill="#34d399" opacity="0.55"/>
+  <circle cx="420" cy="140" r="1.5" fill="#c084fc" opacity="0.5"/>
+  <circle cx="300" cy="148" r="2"   fill="#fbbf24" opacity="0.4"/>
+
+  <!-- ─────────────── RIGHT PANEL: clean inbox + text ─────────────── -->
+
+  <text x="490" y="22" font-family="monospace" font-size="9" fill="#334155"
+    text-anchor="middle" letter-spacing="3">A F T E R</text>
+
+  <!-- Clean envelope -->
+  <g transform="translate(450,38)" filter="url(#softglow)">
+    <rect width="96" height="64" rx="5" fill="url(#envClean)" stroke="#16a34a" stroke-width="2"/>
+    <polyline points="0,0 48,38 96,0" fill="none" stroke="#16a34a" stroke-width="2"/>
+    <!-- Checkmark -->
+    <polyline points="22,40 34,52 62,24" fill="none" stroke="#4ade80"
+      stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- CLEAN badge -->
+  <rect x="456" y="116" width="84" height="20" rx="10" fill="#052e16" stroke="#16a34a" stroke-width="1"/>
+  <text x="498" y="130" font-family="Arial" font-size="9" fill="#4ade80"
+    text-anchor="middle" font-weight="bold" letter-spacing="1.5">CLEAN ✓</text>
+
+  <!-- ─── Typography ─── -->
+
+  <!-- Main title -->
+  <text x="658" y="82"
+    font-family="system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif"
+    font-size="38" fill="#f1f5f9" font-weight="700" text-anchor="middle" letter-spacing="-1">
+    Gmail Cleaner
+  </text>
+
+  <!-- Subtitle -->
+  <text x="658" y="108"
+    font-family="system-ui,-apple-system,Arial,sans-serif"
+    font-size="13" fill="#64748b" text-anchor="middle" letter-spacing="0.2">
+    Bulk clean your inbox. No apps. No fuss.
+  </text>
+
+  <!-- Feature pills -->
+  <rect x="558" y="126" width="84" height="19" rx="9.5" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="600" y="139" font-family="Arial" font-size="9" fill="#60a5fa"
+    text-anchor="middle">● Google Sheets</text>
+
+  <rect x="652" y="126" width="64" height="19" rx="9.5" fill="#0f172a" stroke="#14532d" stroke-width="1"/>
+  <text x="684" y="139" font-family="Arial" font-size="9" fill="#4ade80"
+    text-anchor="middle">● Free &amp; Open</text>
+
+  <rect x="726" y="126" width="62" height="19" rx="9.5" fill="#0f172a" stroke="#422006" stroke-width="1"/>
+  <text x="757" y="139" font-family="Arial" font-size="9" fill="#fbbf24"
+    text-anchor="middle">● AI-powered</text>
+
+</svg>
