@@ -1,0 +1,577 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440">
+<defs>
+  <filter id="shadow">
+    <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00000030"/>
+  </filter>
+  <filter id="cursorShadow">
+    <feDropShadow dx="1" dy="1" stdDeviation="1" flood-color="#00000060"/>
+  </filter>
+  <clipPath id="cellA"><rect x="41" y="0" width="148" height="440"/></clipPath>
+  <clipPath id="cellB"><rect x="191" y="0" width="178" height="440"/></clipPath>
+  <clipPath id="cellD"><rect x="431" y="0" width="108" height="440"/></clipPath>
+  <clipPath id="cellG"><rect x="686" y="0" width="113" height="440"/></clipPath>
+</defs>
+
+<style>
+  text { font-family: "Google Sans", system-ui, -apple-system, Arial, sans-serif; }
+
+  /* ── 24s loop: 3 scenes × 8s ─────────────────────── */
+  /* Scene 1 (0-8s = 0-33%): menu opens, Analyze Inbox clicked  */
+  /* Scene 2 (8-16s = 33-67%): rows populate, scanner sweeps    */
+  /* Scene 3 (16-24s = 67-100%): Clean Now, rows disappear       */
+
+  .s1 { animation: sc1 24s infinite; }
+  .s2 { animation: sc2 24s infinite; }
+  .s3 { animation: sc3 24s infinite; }
+
+  @keyframes sc1 { 0%{opacity:1} 30%{opacity:1} 33%{opacity:0} 100%{opacity:0} }
+  @keyframes sc2 { 0%,33%{opacity:0} 35%{opacity:1} 64%{opacity:1} 67%{opacity:0} 100%{opacity:0} }
+  @keyframes sc3 { 0%,67%{opacity:0} 69%{opacity:1} 98%{opacity:1} 100%{opacity:0} }
+
+  /* ── Menu item highlight (scene 1 & 3) ── */
+  @keyframes menuHover1 {
+    0%,14%  {fill:#f1f3f4; rx:4}
+    16%     {fill:#e8f0fe}
+    30%     {fill:#e8f0fe}
+    33%,100%{fill:#f1f3f4}
+  }
+  @keyframes menuHover3 {
+    0%,70%  {fill:#f1f3f4}
+    72%     {fill:#e8f0fe}
+    84%     {fill:#e8f0fe}
+    86%,100%{fill:#f1f3f4}
+  }
+  .mh1 { animation: menuHover1 24s infinite; }
+  .mh3 { animation: menuHover3 24s infinite; }
+
+  /* ── Cursor movement ── */
+  @keyframes cursor1 {
+    0%          { transform:translate(600px,220px); opacity:0; }
+    5%          { opacity:1; }
+    16%         { transform:translate(490px,65px); } /* → menu item */
+    22%         { transform:translate(490px,65px); } /* hover */
+    25%         { transform:translate(510px,105px); } /* → Analyze Inbox */
+    29%         { transform:translate(510px,105px); }
+    32%,100%    { opacity:0; }
+  }
+  @keyframes cursor3 {
+    0%,68%      { opacity:0; transform:translate(200px,250px); }
+    72%         { opacity:1; transform:translate(490px,65px); } /* → menu */
+    78%         { transform:translate(490px,65px); }
+    81%         { transform:translate(510px,120px); } /* → Clean Now */
+    85%         { transform:translate(510px,120px); }
+    88%,100%    { opacity:0; }
+  }
+  .cur1 { animation: cursor1 24s infinite; }
+  .cur3 { animation: cursor3 24s infinite; }
+
+  /* ── Dropdown menu (scene 1: analyze, scene 3: clean now) ── */
+  @keyframes drop1 {
+    0%,20%  {opacity:0; transform:translateY(-4px)}
+    22%     {opacity:1; transform:translateY(0)}
+    30%     {opacity:1}
+    33%,100%{opacity:0}
+  }
+  @keyframes drop3 {
+    0%,74%  {opacity:0; transform:translateY(-4px)}
+    76%     {opacity:1; transform:translateY(0)}
+    84%     {opacity:1}
+    87%,100%{opacity:0}
+  }
+  .dd1 { animation: drop1 24s infinite; }
+  .dd3 { animation: drop3 24s infinite; }
+
+  /* ── "Analyze Inbox" item pulse (scene 1) ── */
+  @keyframes analyzeClick {
+    0%,23%  {fill:#f8f9fa}
+    25%     {fill:#c2d7f5}
+    28%,100%{fill:#f8f9fa}
+  }
+  .aclick { animation: analyzeClick 24s infinite; }
+
+  /* ── "Clean Now" item pulse (scene 3) ── */
+  @keyframes cleanClick {
+    0%,81%  {fill:#f8f9fa}
+    83%     {fill:#c2d7f5}
+    86%,100%{fill:#f8f9fa}
+  }
+  .cclick { animation: cleanClick 24s infinite; }
+
+  /* ── Scanner bar (scene 2) ── */
+  @keyframes scan {
+    0%,34%  {transform:translateY(130px); opacity:0}
+    36%     {opacity:0.6}
+    64%     {transform:translateY(370px); opacity:0.4}
+    67%,100%{opacity:0}
+  }
+  .scanner { animation: scan 24s infinite; }
+
+  /* ── Progress dialog (scene 2) ── */
+  @keyframes progDlg {
+    0%,34%  {opacity:0}
+    36%     {opacity:1}
+    44%     {opacity:1}
+    47%,100%{opacity:0}
+  }
+  .prog { animation: progDlg 24s infinite; }
+
+  @keyframes progBar {
+    0%,35%  {width:0}
+    46%     {width:260px}
+  }
+  .progbar { animation: progBar 24s infinite; }
+
+  @keyframes progTxt {
+    0%,35%  {opacity:0}
+    36%     {opacity:1}
+    44%     {opacity:1}
+    47%,100%{opacity:0}
+  }
+  .progtxt { animation: progTxt 24s infinite; }
+
+  /* ── Confirm dialog (scene 3) ── */
+  @keyframes confDlg {
+    0%,75%  {opacity:0}
+    77%     {opacity:1}
+    84%,100%{opacity:0}
+  }
+  .conf { animation: confDlg 24s infinite; }
+
+  /* ── Success toast (scene 3) ── */
+  @keyframes toast {
+    0%,88%   {opacity:0; transform:translateY(8px)}
+    90%      {opacity:1; transform:translateY(0)}
+    97%      {opacity:1}
+    100%     {opacity:0}
+  }
+  .toast { animation: toast 24s infinite; }
+
+  /* ── Data rows: pop in during scene 2 ── */
+  /* Delete rows also fade out in scene 3 */
+  /* Archive rows also fade out in scene 3 */
+  /* Keep rows stay */
+
+  @keyframes rowDel1 { /* row 2: deals@amazon */
+    0%,37%  {opacity:0;transform:translateY(-5px)}
+    39%     {opacity:1;transform:translateY(0)}
+    66%     {opacity:1}
+    79%     {opacity:0}
+    100%    {opacity:0}
+  }
+  @keyframes rowDel2 { /* row 6: linkedin */
+    0%,47%  {opacity:0;transform:translateY(-5px)}
+    49%     {opacity:1;transform:translateY(0)}
+    66%     {opacity:1}
+    81%     {opacity:0}
+    100%    {opacity:0}
+  }
+  @keyframes rowArc1 { /* row 1: techcrunch */
+    0%,35%  {opacity:0;transform:translateY(-5px)}
+    37%     {opacity:1;transform:translateY(0)}
+    66%     {opacity:1}
+    82%     {opacity:0}
+    100%    {opacity:0}
+  }
+  @keyframes rowArc2 { /* row 4: github */
+    0%,43%  {opacity:0;transform:translateY(-5px)}
+    45%     {opacity:1;transform:translateY(0)}
+    97%     {opacity:1}  /* archives stay until end */
+    100%    {opacity:0}
+  }
+  @keyframes rowKeep1 { /* row 3: sarah */
+    0%,40%  {opacity:0;transform:translateY(-5px)}
+    42%     {opacity:1;transform:translateY(0)}
+    98%     {opacity:1}
+    100%    {opacity:0}
+  }
+  @keyframes rowKeep2 { /* row 5: google security */
+    0%,45%  {opacity:0;transform:translateY(-5px)}
+    47%     {opacity:1;transform:translateY(0)}
+    98%     {opacity:1}
+    100%    {opacity:0}
+  }
+  @keyframes rowKeep3 { /* row 7: stripe */
+    0%,50%  {opacity:0;transform:translateY(-5px)}
+    52%     {opacity:1;transform:translateY(0)}
+    98%     {opacity:1}
+    100%    {opacity:0}
+  }
+
+  .rd1 { animation: rowDel1 24s infinite; }
+  .rd2 { animation: rowDel2 24s infinite; }
+  .ra1 { animation: rowArc1 24s infinite; }
+  .ra2 { animation: rowArc2 24s infinite; }
+  .rk1 { animation: rowKeep1 24s infinite; }
+  .rk2 { animation: rowKeep2 24s infinite; }
+  .rk3 { animation: rowKeep3 24s infinite; }
+
+  /* ── "X rows cleaned" count animation in scene 3 ── */
+  @keyframes cleanCount {
+    0%,67%  {opacity:0}
+    85%     {opacity:0}
+    87%     {opacity:1}
+    98%     {opacity:1}
+    100%    {opacity:0}
+  }
+  .cleancount { animation: cleanCount 24s infinite; }
+</style>
+
+<!-- ════════════════════════════════════════════════════
+     CHROME BROWSER STRIP
+════════════════════════════════════════════════════ -->
+<rect width="800" height="26" fill="#dee1e6"/>
+<!-- traffic lights -->
+<circle cx="14" cy="13" r="5" fill="#ff5f57"/>
+<circle cx="28" cy="13" r="5" fill="#febc2e"/>
+<circle cx="42" cy="13" r="5" fill="#28c840"/>
+<!-- tab -->
+<rect x="70" y="3" width="220" height="20" rx="5" fill="white"/>
+<text x="78" y="17" font-size="10" fill="#444">📊 Gmail Cleaner – Google Sheets</text>
+<!-- URL bar -->
+<rect x="300" y="5" width="340" height="16" rx="8" fill="white"/>
+<text x="314" y="16" font-size="9" fill="#777">docs.google.com/spreadsheets/d/1abc.../edit</text>
+
+<!-- ════════════════════════════════════════════════════
+     SHEETS HEADER BAR
+════════════════════════════════════════════════════ -->
+<rect x="0" y="26" width="800" height="44" fill="white"/>
+<!-- Sheets icon (coloured grid) -->
+<rect x="10" y="34" width="8"  height="8"  rx="1" fill="#34a853"/>
+<rect x="10" y="44" width="8"  height="8"  rx="1" fill="#34a853" opacity="0.6"/>
+<rect x="20" y="34" width="8"  height="8"  rx="1" fill="#34a853" opacity="0.6"/>
+<rect x="20" y="44" width="8"  height="8"  rx="1" fill="#34a853" opacity="0.3"/>
+<!-- File name -->
+<text x="36" y="52" font-size="16" fill="#202124" font-weight="500">Gmail Cleaner</text>
+<!-- Star + cloud -->
+<text x="178" y="50" font-size="13" fill="#999">☆</text>
+<text x="198" y="50" font-size="12" fill="#aaa">☁</text>
+<!-- Share button -->
+<rect x="710" y="34" width="72" height="28" rx="14" fill="#1a73e8"/>
+<text x="746" y="52" text-anchor="middle" font-size="12" fill="white" font-weight="500">Share</text>
+
+<!-- ════════════════════════════════════════════════════
+     MENU BAR
+════════════════════════════════════════════════════ -->
+<rect x="0" y="70" width="800" height="28" fill="white"/>
+<text x="8"   y="88" font-size="12" fill="#444">File</text>
+<text x="40"  y="88" font-size="12" fill="#444">Edit</text>
+<text x="70"  y="88" font-size="12" fill="#444">View</text>
+<text x="102" y="88" font-size="12" fill="#444">Insert</text>
+<text x="142" y="88" font-size="12" fill="#444">Format</text>
+<text x="188" y="88" font-size="12" fill="#444">Data</text>
+<text x="218" y="88" font-size="12" fill="#444">Tools</text>
+<text x="252" y="88" font-size="12" fill="#444">Extensions</text>
+<text x="313" y="88" font-size="12" fill="#444">Help</text>
+<!-- Gmail Cleaner custom menu item -->
+<rect class="mh1" x="354" y="72" width="136" height="24" rx="4" fill="#f1f3f4"/>
+<rect class="mh3" x="354" y="72" width="136" height="24" rx="4" fill="#f1f3f4"/>
+<text x="360" y="88" font-size="12" fill="#1a73e8" font-weight="600">📧 Gmail Cleaner</text>
+<!-- separator -->
+<line x1="0" y1="98" x2="800" y2="98" stroke="#e0e0e0" stroke-width="1"/>
+
+<!-- ════════════════════════════════════════════════════
+     COLUMN LETTER HEADER ROW
+════════════════════════════════════════════════════ -->
+<rect x="0" y="98" width="800" height="24" fill="#f8f9fa"/>
+<rect x="0" y="98" width="40"  height="24" fill="#f1f3f4"/>
+<!-- column letter labels -->
+<text x="20"  y="115" text-anchor="middle" font-size="11" fill="#777">  </text>
+<text x="115" y="115" text-anchor="middle" font-size="11" fill="#777">A</text>
+<text x="280" y="115" text-anchor="middle" font-size="11" fill="#777">B</text>
+<text x="400" y="115" text-anchor="middle" font-size="11" fill="#777">C</text>
+<text x="485" y="115" text-anchor="middle" font-size="11" fill="#777">D</text>
+<text x="578" y="115" text-anchor="middle" font-size="11" fill="#777">E</text>
+<text x="648" y="115" text-anchor="middle" font-size="11" fill="#777">F</text>
+<text x="743" y="115" text-anchor="middle" font-size="11" fill="#777">G</text>
+<!-- vertical grid lines -->
+<line x1="40"  y1="98" x2="40"  y2="440" stroke="#e0e0e0" stroke-width="1"/>
+<line x1="190" y1="98" x2="190" y2="440" stroke="#e0e0e0" stroke-width="1"/>
+<line x1="370" y1="98" x2="370" y2="440" stroke="#e0e0e0" stroke-width="1"/>
+<line x1="430" y1="98" x2="430" y2="440" stroke="#e0e0e0" stroke-width="1"/>
+<line x1="540" y1="98" x2="540" y2="440" stroke="#e0e0e0" stroke-width="1"/>
+<line x1="615" y1="98" x2="615" y2="440" stroke="#e0e0e0" stroke-width="1"/>
+<line x1="685" y1="98" x2="685" y2="440" stroke="#e0e0e0" stroke-width="1"/>
+
+<!-- ════════════════════════════════════════════════════
+     ROW 1 — HEADER (bold, frozen, grey bg)
+════════════════════════════════════════════════════ -->
+<rect x="0"   y="122" width="800" height="30" fill="#f8f9fa"/>
+<rect x="0"   y="122" width="40"  height="30" fill="#f1f3f4"/>
+<text x="20"  y="141" text-anchor="middle" font-size="11" fill="#777">1</text>
+<text x="45"  y="141" font-size="11" fill="#202124" font-weight="600">From</text>
+<text x="195" y="141" font-size="11" fill="#202124" font-weight="600">Subject</text>
+<text x="375" y="141" font-size="11" fill="#202124" font-weight="600">Date</text>
+<text x="435" y="141" font-size="11" fill="#202124" font-weight="600">Category</text>
+<text x="545" y="141" font-size="11" fill="#202124" font-weight="600">Action</text>
+<text x="620" y="141" font-size="11" fill="#202124" font-weight="600">Confidence</text>
+<text x="690" y="141" font-size="11" fill="#202124" font-weight="600">Reason</text>
+<line x1="0" y1="152" x2="800" y2="152" stroke="#c0c0c0" stroke-width="1.5"/>
+
+<!-- ════════════════════════════════════════════════════
+     DATA ROWS (animated)
+     Each row: row-number col + 7 data cols
+════════════════════════════════════════════════════ -->
+
+<!-- helper: row y positions: 152, 186, 220, 254, 288, 322, 356 (34px each) -->
+
+<!-- ── ROW 2: newsletter@techcrunch.com | archive (yellow) ── -->
+<g class="ra1" opacity="0">
+  <rect x="0"   y="152" width="40"  height="34" fill="#f8f9fa"/>
+  <rect x="40"  y="152" width="760" height="34" fill="#fffde7"/>
+  <rect x="540" y="152" width="75"  height="34" fill="#fff9c4"/>
+  <line x1="0" y1="186" x2="800" y2="186" stroke="#e0e0e0"/>
+  <text x="20"  y="173" text-anchor="middle" font-size="10" fill="#777">2</text>
+  <text x="45"  y="170" font-size="10" fill="#333" clip-path="url(#cellA)">newsletter@techcrunch.com</text>
+  <text x="195" y="170" font-size="10" fill="#333" clip-path="url(#cellB)">This Week in Tech — Top Stories</text>
+  <text x="375" y="170" font-size="10" fill="#555">Mar 08</text>
+  <text x="435" y="170" font-size="10" fill="#555" clip-path="url(#cellD)">newsletter</text>
+  <rect x="543" y="158" width="66" height="20" rx="3" fill="#f9a825"/>
+  <text x="576" y="172" text-anchor="middle" font-size="10" fill="#fff" font-weight="600">archive</text>
+  <text x="620" y="170" font-size="10" fill="#555">90%</text>
+  <text x="690" y="170" font-size="9"  fill="#888" clip-path="url(#cellG)">Sender matches newsletter</text>
+</g>
+
+<!-- ── ROW 3: deals@amazon.com | delete (red) ── -->
+<g class="rd1" opacity="0">
+  <rect x="0"   y="186" width="40"  height="34" fill="#f8f9fa"/>
+  <rect x="40"  y="186" width="760" height="34" fill="#fce8e6"/>
+  <rect x="540" y="186" width="75"  height="34" fill="#f5c6c2"/>
+  <line x1="0" y1="220" x2="800" y2="220" stroke="#e0e0e0"/>
+  <text x="20"  y="207" text-anchor="middle" font-size="10" fill="#777">3</text>
+  <text x="45"  y="204" font-size="10" fill="#333" clip-path="url(#cellA)">deals@amazon.com</text>
+  <text x="195" y="204" font-size="10" fill="#333" clip-path="url(#cellB)">🔥 Flash Sale — Ends Tonight!</text>
+  <text x="375" y="204" font-size="10" fill="#555">Mar 09</text>
+  <text x="435" y="204" font-size="10" fill="#555" clip-path="url(#cellD)">promotional</text>
+  <rect x="543" y="192" width="66" height="20" rx="3" fill="#e53935"/>
+  <text x="576" y="206" text-anchor="middle" font-size="10" fill="#fff" font-weight="600">delete</text>
+  <text x="620" y="204" font-size="10" fill="#555">95%</text>
+  <text x="690" y="204" font-size="9"  fill="#888" clip-path="url(#cellG)">Sender matches promotional</text>
+</g>
+
+<!-- ── ROW 4: sarah.johnson@gmail.com | keep (green) ── -->
+<g class="rk1" opacity="0">
+  <rect x="0"   y="220" width="40"  height="34" fill="#f8f9fa"/>
+  <rect x="40"  y="220" width="760" height="34" fill="#e8f5e9"/>
+  <rect x="540" y="220" width="75"  height="34" fill="#c8e6c9"/>
+  <line x1="0" y1="254" x2="800" y2="254" stroke="#e0e0e0"/>
+  <text x="20"  y="241" text-anchor="middle" font-size="10" fill="#777">4</text>
+  <text x="45"  y="238" font-size="10" fill="#333" clip-path="url(#cellA)">sarah.johnson@gmail.com</text>
+  <text x="195" y="238" font-size="10" fill="#333" clip-path="url(#cellB)">Re: Dinner plans this Saturday?</text>
+  <text x="375" y="238" font-size="10" fill="#555">Mar 10</text>
+  <text x="435" y="238" font-size="10" fill="#555" clip-path="url(#cellD)">personal</text>
+  <rect x="543" y="226" width="66" height="20" rx="3" fill="#43a047"/>
+  <text x="576" y="240" text-anchor="middle" font-size="10" fill="#fff" font-weight="600">keep</text>
+  <text x="620" y="238" font-size="10" fill="#555">82%</text>
+  <text x="690" y="238" font-size="9"  fill="#888" clip-path="url(#cellG)">Appears to be personal</text>
+</g>
+
+<!-- ── ROW 5: noreply@github.com | archive (yellow) ── -->
+<g class="ra2" opacity="0">
+  <rect x="0"   y="254" width="40"  height="34" fill="#f8f9fa"/>
+  <rect x="40"  y="254" width="760" height="34" fill="#fffde7"/>
+  <rect x="540" y="254" width="75"  height="34" fill="#fff9c4"/>
+  <line x1="0" y1="288" x2="800" y2="288" stroke="#e0e0e0"/>
+  <text x="20"  y="275" text-anchor="middle" font-size="10" fill="#777">5</text>
+  <text x="45"  y="272" font-size="10" fill="#333" clip-path="url(#cellA)">noreply@github.com</text>
+  <text x="195" y="272" font-size="10" fill="#333" clip-path="url(#cellB)">[PR #42] Bug fix merged into main</text>
+  <text x="375" y="272" font-size="10" fill="#555">Mar 09</text>
+  <text x="435" y="272" font-size="10" fill="#555" clip-path="url(#cellD)">auto_notification</text>
+  <rect x="543" y="260" width="66" height="20" rx="3" fill="#f9a825"/>
+  <text x="576" y="274" text-anchor="middle" font-size="10" fill="#fff" font-weight="600">archive</text>
+  <text x="620" y="272" font-size="10" fill="#555">87%</text>
+  <text x="690" y="272" font-size="9"  fill="#888" clip-path="url(#cellG)">Sender matches noreply@</text>
+</g>
+
+<!-- ── ROW 6: security@google.com | keep (green) ── -->
+<g class="rk2" opacity="0">
+  <rect x="0"   y="288" width="40"  height="34" fill="#f8f9fa"/>
+  <rect x="40"  y="288" width="760" height="34" fill="#e8f5e9"/>
+  <rect x="540" y="288" width="75"  height="34" fill="#c8e6c9"/>
+  <line x1="0" y1="322" x2="800" y2="322" stroke="#e0e0e0"/>
+  <text x="20"  y="309" text-anchor="middle" font-size="10" fill="#777">6</text>
+  <text x="45"  y="306" font-size="10" fill="#333" clip-path="url(#cellA)">security@google.com</text>
+  <text x="195" y="306" font-size="10" fill="#333" clip-path="url(#cellB)">New sign-in to your account</text>
+  <text x="375" y="306" font-size="10" fill="#555">Mar 10</text>
+  <text x="435" y="306" font-size="10" fill="#555" clip-path="url(#cellD)">security_alert</text>
+  <rect x="543" y="294" width="66" height="20" rx="3" fill="#43a047"/>
+  <text x="576" y="308" text-anchor="middle" font-size="10" fill="#fff" font-weight="600">keep</text>
+  <text x="620" y="306" font-size="10" fill="#555">97%</text>
+  <text x="690" y="306" font-size="9"  fill="#888" clip-path="url(#cellG)">Sender matches security@</text>
+</g>
+
+<!-- ── ROW 7: no-reply@linkedin.com | delete (red) ── -->
+<g class="rd2" opacity="0">
+  <rect x="0"   y="322" width="40"  height="34" fill="#f8f9fa"/>
+  <rect x="40"  y="322" width="760" height="34" fill="#fce8e6"/>
+  <rect x="540" y="322" width="75"  height="34" fill="#f5c6c2"/>
+  <line x1="0" y1="356" x2="800" y2="356" stroke="#e0e0e0"/>
+  <text x="20"  y="343" text-anchor="middle" font-size="10" fill="#777">7</text>
+  <text x="45"  y="340" font-size="10" fill="#333" clip-path="url(#cellA)">no-reply@linkedin.com</text>
+  <text x="195" y="340" font-size="10" fill="#333" clip-path="url(#cellB)">John Smith wants to connect</text>
+  <text x="375" y="340" font-size="10" fill="#555">Mar 10</text>
+  <text x="435" y="340" font-size="10" fill="#555" clip-path="url(#cellD)">social_notification</text>
+  <rect x="543" y="328" width="66" height="20" rx="3" fill="#e53935"/>
+  <text x="576" y="342" text-anchor="middle" font-size="10" fill="#fff" font-weight="600">delete</text>
+  <text x="620" y="340" font-size="10" fill="#555">89%</text>
+  <text x="690" y="340" font-size="9"  fill="#888" clip-path="url(#cellG)">Sender matches social</text>
+</g>
+
+<!-- ── ROW 8: billing@stripe.com | keep (green) ── -->
+<g class="rk3" opacity="0">
+  <rect x="0"   y="356" width="40"  height="34" fill="#f8f9fa"/>
+  <rect x="40"  y="356" width="760" height="34" fill="#e8f5e9"/>
+  <rect x="540" y="356" width="75"  height="34" fill="#c8e6c9"/>
+  <line x1="0" y1="390" x2="800" y2="390" stroke="#e0e0e0"/>
+  <text x="20"  y="377" text-anchor="middle" font-size="10" fill="#777">8</text>
+  <text x="45"  y="374" font-size="10" fill="#333" clip-path="url(#cellA)">billing@stripe.com</text>
+  <text x="195" y="374" font-size="10" fill="#333" clip-path="url(#cellB)">Invoice #INV-2024-0891 — $49.00</text>
+  <text x="375" y="374" font-size="10" fill="#555">Mar 07</text>
+  <text x="435" y="374" font-size="10" fill="#555" clip-path="url(#cellD)">financial</text>
+  <rect x="543" y="362" width="66" height="20" rx="3" fill="#43a047"/>
+  <text x="576" y="376" text-anchor="middle" font-size="10" fill="#fff" font-weight="600">keep</text>
+  <text x="620" y="374" font-size="10" fill="#555">93%</text>
+  <text x="690" y="374" font-size="9"  fill="#888" clip-path="url(#cellG)">Sender matches financial</text>
+</g>
+
+<!-- ════════════════════════════════════════════════════
+     SCANNER BAR (scene 2)
+════════════════════════════════════════════════════ -->
+<rect class="scanner" x="40" y="0" width="760" height="2"
+  fill="none" stroke="#1a73e8" stroke-width="2.5" opacity="0"
+  filter="url(#shadow)"/>
+
+<!-- ════════════════════════════════════════════════════
+     SHEET TABS (bottom)
+════════════════════════════════════════════════════ -->
+<rect x="0" y="390" width="800" height="28" fill="#f8f9fa"/>
+<line x1="0" y1="390" x2="800" y2="390" stroke="#e0e0e0"/>
+<rect  x="4"   y="393" width="72"  height="22" rx="3" fill="white" stroke="#e0e0e0"/>
+<text  x="40"  y="408" text-anchor="middle" font-size="10" fill="#666">Dashboard</text>
+<rect  x="80"  y="393" width="62"  height="22" rx="3" fill="white" stroke="#e0e0e0"/>
+<text  x="111" y="408" text-anchor="middle" font-size="10" fill="#666">Settings</text>
+<rect  x="146" y="393" width="44"  height="22" rx="3" fill="white" stroke="#e0e0e0"/>
+<text  x="168" y="408" text-anchor="middle" font-size="10" fill="#666">Rules</text>
+<!-- Active tab: Results -->
+<rect  x="194" y="391" width="54"  height="24" rx="3" fill="white" stroke="#1a73e8" stroke-width="1.5"/>
+<line  x1="194" y1="414" x2="248" y2="414" stroke="#1a73e8" stroke-width="2.5"/>
+<text  x="221" y="408" text-anchor="middle" font-size="10" fill="#1a73e8" font-weight="600">Results</text>
+<rect  x="252" y="393" width="60"  height="22" rx="3" fill="white" stroke="#e0e0e0"/>
+<text  x="282" y="408" text-anchor="middle" font-size="10" fill="#666">AI Drafts</text>
+
+<!-- ════════════════════════════════════════════════════
+     STATUS BAR
+════════════════════════════════════════════════════ -->
+<rect x="0" y="418" width="800" height="22" fill="#f1f3f4"/>
+<line x1="0" y1="418" x2="800" y2="418" stroke="#e0e0e0"/>
+<!-- Clean count (scene 3, post-cleanup) -->
+<text class="cleancount" x="400" y="433" text-anchor="middle" font-size="10" fill="#137333" font-weight="500">
+  ✅ Cleanup complete — 🗑️ Deleted: 2 · 📦 Archived: 1 · ✅ Kept: 3
+</text>
+
+<!-- ════════════════════════════════════════════════════
+     SCENE 1: "Analyze Inbox" DROPDOWN
+════════════════════════════════════════════════════ -->
+<g class="dd1" opacity="0">
+  <!-- dropdown shadow box -->
+  <rect x="354" y="98" width="190" height="180" rx="6" fill="white" filter="url(#shadow)"/>
+  <!-- item: Analyze Inbox (highlighted) -->
+  <rect class="aclick" x="357" y="101" width="184" height="30" rx="4" fill="#f8f9fa"/>
+  <text x="368" y="121" font-size="12" fill="#202124">🔍  Analyze Inbox</text>
+  <!-- item: Clean Now -->
+  <rect x="357" y="134" width="184" height="30" rx="4" fill="white"/>
+  <text x="368" y="154" font-size="12" fill="#202124">✨  Clean Now</text>
+  <!-- separator -->
+  <line x1="364" y1="168" x2="537" y2="168" stroke="#e0e0e0"/>
+  <!-- item: Draft AI Replies -->
+  <rect x="357" y="171" width="184" height="30" rx="4" fill="white"/>
+  <text x="368" y="191" font-size="12" fill="#202124">🤖  Draft AI Replies</text>
+  <!-- item: Save Settings -->
+  <rect x="357" y="204" width="184" height="30" rx="4" fill="white"/>
+  <text x="368" y="224" font-size="12" fill="#202124">⚙️  Save Settings</text>
+  <!-- item: Test Run -->
+  <rect x="357" y="237" width="184" height="30" rx="4" fill="white"/>
+  <text x="368" y="257" font-size="12" fill="#202124">🧪  Test Run (10 emails)</text>
+</g>
+
+<!-- ════════════════════════════════════════════════════
+     SCENE 2: PROGRESS DIALOG
+════════════════════════════════════════════════════ -->
+<g class="prog" opacity="0">
+  <!-- overlay -->
+  <rect width="800" height="440" fill="#00000022"/>
+  <!-- dialog box -->
+  <rect x="260" y="155" width="280" height="120" rx="8" fill="white" filter="url(#shadow)"/>
+  <text x="400" y="182" text-anchor="middle" font-size="14" fill="#202124" font-weight="600">🔍 Analyzing Inbox</text>
+  <!-- progress bar track -->
+  <rect x="278" y="198" width="244" height="10" rx="5" fill="#e8eaed"/>
+  <!-- progress bar fill (animated width) -->
+  <rect class="progbar" x="278" y="198" width="0" height="10" rx="5" fill="#1a73e8"/>
+  <!-- status text -->
+  <text class="progtxt" x="400" y="228" text-anchor="middle" font-size="11" fill="#5f6368">
+    Classifying emails...
+  </text>
+  <text class="progtxt" x="400" y="250" text-anchor="middle" font-size="11" fill="#1a73e8" font-weight="500">
+    7 emails categorized ✓
+  </text>
+</g>
+
+<!-- ════════════════════════════════════════════════════
+     SCENE 3: "Clean Now" DROPDOWN
+════════════════════════════════════════════════════ -->
+<g class="dd3" opacity="0">
+  <rect x="354" y="98" width="190" height="180" rx="6" fill="white" filter="url(#shadow)"/>
+  <rect x="357" y="101" width="184" height="30" rx="4" fill="white"/>
+  <text x="368" y="121" font-size="12" fill="#202124">🔍  Analyze Inbox</text>
+  <!-- Clean Now highlighted -->
+  <rect class="cclick" x="357" y="134" width="184" height="30" rx="4" fill="#f8f9fa"/>
+  <text x="368" y="154" font-size="12" fill="#202124">✨  Clean Now</text>
+  <line x1="364" y1="168" x2="537" y2="168" stroke="#e0e0e0"/>
+  <rect x="357" y="171" width="184" height="30" rx="4" fill="white"/>
+  <text x="368" y="191" font-size="12" fill="#202124">🤖  Draft AI Replies</text>
+  <rect x="357" y="204" width="184" height="30" rx="4" fill="white"/>
+  <text x="368" y="224" font-size="12" fill="#202124">⚙️  Save Settings</text>
+  <rect x="357" y="237" width="184" height="30" rx="4" fill="white"/>
+  <text x="368" y="257" font-size="12" fill="#202124">🧪  Test Run (10 emails)</text>
+</g>
+
+<!-- ════════════════════════════════════════════════════
+     SCENE 3: CONFIRMATION DIALOG
+════════════════════════════════════════════════════ -->
+<g class="conf" opacity="0">
+  <rect width="800" height="440" fill="#00000022"/>
+  <rect x="230" y="130" width="340" height="168" rx="8" fill="white" filter="url(#shadow)"/>
+  <text x="400" y="162" text-anchor="middle" font-size="14" fill="#202124" font-weight="600">⚠️ Confirm Cleanup</text>
+  <line x1="238" y1="172" x2="562" y2="172" stroke="#e8eaed"/>
+  <text x="400" y="194" text-anchor="middle" font-size="11" fill="#3c4043">About to process 7 emails:</text>
+  <text x="400" y="213" text-anchor="middle" font-size="11" fill="#c5221f">🗑️  Delete: 2 emails (moved to Trash)</text>
+  <text x="400" y="231" text-anchor="middle" font-size="11" fill="#7a5400">📦 Archive: 1 email (removed from inbox)</text>
+  <text x="400" y="249" text-anchor="middle" font-size="11" fill="#137333">✅ Keep: 3 emails (no action)</text>
+  <!-- Buttons -->
+  <rect x="295" y="265" width="90"  height="26" rx="13" fill="white" stroke="#dadce0" stroke-width="1"/>
+  <text x="340" y="282" text-anchor="middle" font-size="12" fill="#3c4043">Cancel</text>
+  <rect x="398" y="265" width="90"  height="26" rx="13" fill="#1a73e8"/>
+  <text x="443" y="282" text-anchor="middle" font-size="12" fill="white" font-weight="500">Confirm</text>
+</g>
+
+<!-- ════════════════════════════════════════════════════
+     SUCCESS TOAST (bottom-right, scene 3)
+════════════════════════════════════════════════════ -->
+<g class="toast" opacity="0">
+  <rect x="540" y="354" width="248" height="56" rx="8" fill="#202124" filter="url(#shadow)"/>
+  <text x="556" y="376" font-size="12" fill="white" font-weight="500">✅ Cleanup complete!</text>
+  <text x="556" y="396" font-size="11" fill="#9aa0a6">🗑️ 2 deleted · 📦 1 archived · ✅ 3 kept</text>
+</g>
+
+<!-- ════════════════════════════════════════════════════
+     MOUSE CURSOR (scenes 1 & 3)
+════════════════════════════════════════════════════ -->
+<!-- Scene 1 cursor -->
+<g class="cur1" opacity="0" filter="url(#cursorShadow)">
+  <polygon points="0,0 0,20 5,15 9,24 12,23 8,14 15,14" fill="white" stroke="#333" stroke-width="0.8"/>
+</g>
+<!-- Scene 3 cursor -->
+<g class="cur3" opacity="0" filter="url(#cursorShadow)">
+  <polygon points="0,0 0,20 5,15 9,24 12,23 8,14 15,14" fill="white" stroke="#333" stroke-width="0.8"/>
+</g>
+
+</svg>

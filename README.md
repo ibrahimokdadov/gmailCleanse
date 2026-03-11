@@ -30,10 +30,16 @@ Bulk delete, archive, or keep thousands of emails with one click. Customizable r
 ## How it works
 
 <p align="center">
-  <img src="animation.svg" alt="Gmail Cleaner animation" width="800"/>
+  <img src="sheets-demo.svg" alt="Gmail Cleaner in Google Sheets" width="800"/>
 </p>
 
-Three emails flow through the pipeline simultaneously: dark-blue on arrival, they change colour at the AI classifier (red = delete, amber = archive, green = keep), then route to the correct bin.
+A 24-second loop showing the full workflow inside Google Sheets: the custom menu opens → emails are analyzed and color-coded → a confirmation dialog shows the plan → deleted and archived rows disappear, leaving only the emails worth keeping.
+
+<p align="center">
+  <img src="animation.svg" alt="Gmail Cleaner pipeline" width="800"/>
+</p>
+
+Under the hood: emails flow from your inbox through the AI classifier and are routed to Delete (red), Archive (amber), or Keep (green).
 
 ---
 
